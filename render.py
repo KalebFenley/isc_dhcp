@@ -33,7 +33,7 @@ def enrich_subnet(cidr: str) -> dict:
         "network_address": str(net.network_address),
         "subnetmask":      str(net.netmask),
         "gateway":         str(hosts[0]),
-        "range_start":     str(hosts[4]),
+        "range_start":     str(hosts[3]),
         "range_end":       str(hosts[-1]),
     }
 
