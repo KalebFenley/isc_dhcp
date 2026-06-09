@@ -1,0 +1,23 @@
+vlans:
+  - id: 403
+    description: Avalon_internet
+    subnets:
+      - 109.73.231.0/24
+
+  - id: 404
+    description: Black_Lake_internet
+    subnets:
+      - 109.73.225.0/24
+      - 216.114.68.0/24
+      - 207.244.222.0/24
+      - 147.185.210.0/24
+
+  - id: 406
+    description: Cheboygan_internet
+    subnets:
+      - 209.145.41.0/24
+      - 204.8.76.0/24
+      - 216.87.61.0/24
+      - 204.8.118.0/24
+      - 209.127.101.0/24
+      - 109.73.232.0/24

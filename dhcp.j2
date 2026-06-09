@@ -1,0 +1,13 @@
+{% for vlan in vlans %}
+# {{ vlan.description }}
+shared-network VLAN-{{ vlan.id }} {
+{% for subnet in vlan.subnets %}
+    subnet {{ subnet.network_address }} netmask {{ subnet.subnetmask }} {       
+        log(info, "======VLAN-{{ vlan.id }}=====");
+        authoritative;
+        range {{ subnet.range_start }} {{ subnet.range_end }};
+        option routers {{ subnet.gateway }};
+    }
+{% endfor %}
+}
+{% endfor %}
