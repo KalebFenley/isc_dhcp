@@ -1,3 +1,35 @@
+# Global server configuration, rendered at the top of dhcpd.conf.
+global:
+  # Bare statements: rendered as "<name> <value>;" (or "<name>;" for `true`,
+  # "not <name>;" for `false`). Values are emitted verbatim — include quotes
+  # yourself where dhcpd requires them (e.g. filename: '"pxelinux.0"').
+  parameters:
+    authoritative: true
+    ddns-update-style: none
+    default-lease-time: 86400
+    max-lease-time: 604800
+    log-facility: local7
+
+  # Option statements: rendered as "option <name> <value>;". Lists are
+  # comma-joined; strings are quoted automatically unless they're IPs.
+  options:
+    domain-name-servers: [8.8.8.8, 1.1.1.1]
+    domain-name: example.local
+
+  # Literal config passed through verbatim — for anything not modeled above
+  # (custom option spaces, TR-069 ACS URL, failover peers, ...).
+  raw: |
+    option space acs;
+    option acs.url code 1 = text;
+    vendor-option-space acs;
+    option acs.url "https://acs.example.local:7547/";
+
+# Per-subnet settings; can be overridden per VLAN or per subnet.
+defaults:
+  reserved_at_start: 3   # hosts excluded before the range (gateway + 2 VRRP peers)
+  reserved_at_end: 0     # hosts excluded at the top of the range (static assignments)
+  log_requests: false    # emit a log() line for every request in the subnet
+
 vlans:
   - id: 403
     description: Avalon_internet
@@ -21,3 +53,11 @@ vlans:
       - 204.8.118.0/24
       - 209.127.101.0/24
       - 109.73.232.0/24
+
+  # Subnets can also be dicts to override settings per subnet:
+  # - id: 410
+  #   reserved_at_start: 10        # VLAN-level override
+  #   subnets:
+  #     - cidr: 10.10.0.0/24
+  #       gateway: 10.10.0.254     # gateway elsewhere than the first host
+  #       reserved_at_end: 20      # keep .234-.253 out of the pool

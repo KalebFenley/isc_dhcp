@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Real site data — copy vars.yaml.example instead
+vars.yaml
+input.yaml
+dhcpd.conf
